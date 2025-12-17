@@ -6,28 +6,36 @@
   <title>École de Poker — De micro-limites à joueur solide</title>
   <meta name="description" content="Une école de poker micro-limites centrée sur une méthode simple + des outils qui te font progresser (ranges, score, review)."/>
   <style>
-    :root{
-      --bg:#F7F9FC;
-      --panel:#FFFFFF;
-      --panel2:#F1F5F9;
-      --text:#0F172A;
-      --muted:#475569;
-      --line:rgba(15,23,42,.12);
-      --blue:#3B82F6;
-      --cyan:#22D3EE;
-      --green:#34D399;
-      --shadow: 0 24px 80px rgba(0,0,0,.45);
-      --radius: 18px;
-      --radius2: 26px;
-      --max: 1360px;
-    }
+:root{
+  --bg:#0E1625;        /* fond principal : bleu nuit doux */
+  --panel:#121E33;     /* cartes / panels */
+  --panel2:#16243F;    /* variantes */
+  --text:#EAF0FF;
+  --muted:#A9B4D0;
+  --line:rgba(255,255,255,.10);
+
+  /* accents plus calmes */
+  --blue:#5B8CFF;
+  --cyan:#4FD1C5;
+  --green:#34D399;
+
+  --shadow: 0 22px 70px rgba(0,0,0,.45);
+  --radius: 18px;
+  --radius2: 26px;
+  --max: 1360px;      /* largeur augmentée */
+}
 
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: var(--bg);
+background:
+  radial-gradient(900px 520px at 20% 8%, rgba(91,140,255,.10), transparent 60%),
+  radial-gradient(900px 540px at 82% 18%, rgba(79,209,197,.08), transparent 55%),
+  radial-gradient(900px 560px at 40% 105%, rgba(52,211,153,.06), transparent 60%),
+  var(--bg);
+
       color:var(--text);
       line-height:1.5;
       overflow-x:hidden;
