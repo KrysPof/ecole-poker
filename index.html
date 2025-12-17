@@ -3,11 +3,404 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>École de Poker</title>
+  <title>École de Poker — De micro-limites à joueur solide</title>
+  <meta name="description" content="Une école de poker micro-limites centrée sur une méthode simple + des outils qui te font progresser (ranges, score, review)."/>
+  <style>
+    :root{
+      --bg:#070A12;
+      --panel:#0B1020;
+      --panel2:#0A1226;
+      --text:#EAF0FF;
+      --muted:#A9B4D0;
+      --line:rgba(255,255,255,.10);
+      --blue:#3B82F6;
+      --cyan:#22D3EE;
+      --green:#34D399;
+      --shadow: 0 24px 80px rgba(0,0,0,.45);
+      --radius: 18px;
+      --radius2: 26px;
+      --max: 1120px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(900px 500px at 18% 10%, rgba(59,130,246,.22), transparent 60%),
+                  radial-gradient(900px 520px at 85% 22%, rgba(34,211,238,.18), transparent 55%),
+                  radial-gradient(900px 540px at 40% 105%, rgba(52,211,153,.10), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.5;
+      overflow-x:hidden;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding: 22px 18px 72px}
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to bottom, rgba(7,10,18,.78), rgba(7,10,18,.20));
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .topbar .wrap{padding:14px 18px}
+    .row{display:flex; align-items:center; justify-content:space-between; gap:14px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px}
+    .logo{
+      width:34px; height:34px; border-radius:12px;
+      background: radial-gradient(10px 10px at 30% 30%, rgba(255,255,255,.9), rgba(255,255,255,.0) 60%),
+                  linear-gradient(135deg, rgba(59,130,246,.9), rgba(34,211,238,.85));
+      box-shadow: 0 16px 30px rgba(59,130,246,.20);
+      border:1px solid rgba(255,255,255,.16);
+    }
+    nav{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
+    nav a{color:var(--muted); font-size:14px; padding:8px 10px; border-radius:12px}
+    nav a:hover{color:var(--text); background: rgba(255,255,255,.06)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding: 11px 14px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      font-weight:600;
+      box-shadow: 0 16px 40px rgba(0,0,0,.22);
+    }
+    .btn:hover{transform: translateY(-1px); transition:.15s ease}
+    .btn.primary{
+      border-color: rgba(59,130,246,.55);
+      background: linear-gradient(135deg, rgba(59,130,246,.92), rgba(34,211,238,.72));
+      box-shadow: 0 26px 70px rgba(59,130,246,.18);
+      color:#081022;
+    }
+    .btn.small{padding:9px 12px; border-radius:12px; font-size:14px}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--muted);
+      padding: 7px 10px;
+      border-radius:999px;
+      font-size:13px;
+    }
+    .dot{width:8px; height:8px; border-radius:999px; background: var(--green); box-shadow:0 0 0 3px rgba(52,211,153,.18)}
+    .hero{padding: 34px 0 10px}
+    .heroGrid{
+      display:grid; grid-template-columns: 1.2fr .8fr; gap:18px;
+      align-items:stretch;
+    }
+    .card{
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+    }
+    .heroMain{padding: 26px 22px}
+    h1{
+      margin: 12px 0 10px;
+      font-size: clamp(30px, 4.2vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.6px;
+    }
+    .sub{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 64ch;
+    }
+    .heroCtas{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
+    .mini{margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; color:var(--muted); font-size:13px}
+    .mini span{display:inline-flex; align-items:center; gap:8px; padding:7px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.18)}
+    .kpi{
+      padding: 18px 18px;
+      display:flex; flex-direction:column; gap:12px;
+    }
+    .kpi .title{font-weight:700}
+    .kpiGrid{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    .tile{
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.20);
+      padding: 12px 12px;
+    }
+    .tile .big{font-size:18px; font-weight:800}
+    .tile .small{font-size:12px; color:var(--muted)}
+    .section{padding: 26px 0 8px}
+    .section h2{
+      margin:0 0 12px; font-size: 24px; letter-spacing:-.2px;
+    }
+    .grid3{display:grid; grid-template-columns: repeat(3, 1fr); gap:12px}
+    .grid2{display:grid; grid-template-columns: repeat(2, 1fr); gap:12px}
+    .box{
+      padding: 16px 16px;
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(11,16,32,.78), rgba(11,16,32,.38));
+    }
+    .box h3{margin:0 0 6px; font-size:16px}
+    .box p{margin:0; color:var(--muted); font-size:14px}
+    .tag{display:inline-flex; font-size:12px; color:#081022; font-weight:800;
+      padding:6px 10px; border-radius:999px;
+      background: linear-gradient(135deg, rgba(34,211,238,.9), rgba(59,130,246,.85));
+    }
+    .divider{height:1px; background: rgba(255,255,255,.08); margin:18px 0}
+    .pricing{display:grid; grid-template-columns: repeat(3, 1fr); gap:12px}
+    .priceCard{padding: 18px; border-radius: var(--radius2); position:relative}
+    .priceCard.featured{
+      border-color: rgba(59,130,246,.45);
+      background: radial-gradient(500px 260px at 30% 0%, rgba(59,130,246,.26), transparent 60%),
+                  linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+    }
+    .price{font-size:30px; font-weight:900; letter-spacing:-.4px}
+    .per{color:var(--muted); font-size:13px}
+    ul{margin:12px 0 0; padding:0 0 0 18px; color:var(--muted); font-size:14px}
+    li{margin:8px 0}
+    details{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      border-radius: 16px;
+      padding: 12px 12px;
+    }
+    summary{cursor:pointer; font-weight:700}
+    details p{margin:10px 0 0; color:var(--muted); font-size:14px}
+    footer{padding: 28px 0 0; color:var(--muted); font-size:13px}
+    .footgrid{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+    .muted{color:var(--muted)}
+    .right{display:flex; gap:10px; flex-wrap:wrap}
+
+    @media (max-width: 940px){
+      .heroGrid{grid-template-columns: 1fr}
+      .pricing{grid-template-columns: 1fr}
+      .grid3{grid-template-columns: 1fr}
+      .grid2{grid-template-columns: 1fr}
+      nav{display:none}
+    }
+  </style>
 </head>
-<body style="font-family: system-ui; padding: 24px;">
-  <h1>École de Poker</h1>
-  <p>Site en construction. (V1)</p>
-  <p><a href="/app/">Accéder à l’app</a></p>
+
+<body>
+  <div class="topbar">
+    <div class="wrap">
+      <div class="row">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>École de Poker</div>
+          <span class="pill"><span class="dot"></span>V1 en construction</span>
+        </div>
+        <nav>
+          <a href="#methode">Méthode</a>
+          <a href="#outils">Outils</a>
+          <a href="#programme">Programme</a>
+          <a href="#tarifs">Tarifs</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <div class="right">
+          <a class="btn small" href="/app/">Voir l’outil</a>
+          <a class="btn primary small" href="#tarifs">Rejoindre</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="heroGrid">
+        <div class="card heroMain">
+          <span class="tag">Micro-limites • MTT online</span>
+          <h1>Une méthode simple.<br/>Un outil qui te force à bien jouer.</h1>
+          <p class="sub">
+            Ici, pas de blabla “high stakes”. On te donne une stratégie robotisée solide + un système de review
+            qui mesure si tu l’appliques vraiment. Tu progresses parce que c’est concret, répétable, et mesurable.
+          </p>
+
+          <div class="heroCtas">
+            <a class="btn primary" href="/app/">Tester l’outil (V1)</a>
+            <a class="btn" href="#methode">Voir la méthode</a>
+          </div>
+
+          <div class="mini">
+            <span>✅ Ranges claires</span>
+            <span>✅ Plans postflop simples</span>
+            <span>✅ Review guidée</span>
+            <span>✅ Suivi de progression</span>
+          </div>
+        </div>
+
+        <div class="card kpi">
+          <div class="title">Le principe</div>
+          <div class="muted">Tu joues → tu importes → l’outil te dit où tu leaks.</div>
+          <div class="divider"></div>
+          <div class="kpiGrid">
+            <div class="tile">
+              <div class="big">Score</div>
+              <div class="small">respect des concepts</div>
+            </div>
+            <div class="tile">
+              <div class="big">Leaks</div>
+              <div class="small">erreurs classées</div>
+            </div>
+            <div class="tile">
+              <div class="big">Routines</div>
+              <div class="small">hygiène mentale</div>
+            </div>
+            <div class="tile">
+              <div class="big">BRM</div>
+              <div class="small">bankroll plan</div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <a class="btn" href="/app/">Ouvrir l’app</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="methode" class="section">
+      <h2>Méthode</h2>
+      <div class="grid3">
+        <div class="box">
+          <h3>1) Robot d’abord</h3>
+          <p>Tu appliques des règles simples (stack, position, action adverse). Pas d’adaptation “ego”.</p>
+        </div>
+        <div class="box">
+          <h3>2) Mesurable</h3>
+          <p>Tu ne “penses” pas que tu progresses : tu vois tes scores et tes erreurs récurrentes.</p>
+        </div>
+        <div class="box">
+          <h3>3) Durable</h3>
+          <p>Le but : une base gagnante en micro. Puis montée de buy-in propre, sans te cramer.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="outils" class="section">
+      <h2>Outils</h2>
+      <div class="grid2">
+        <div class="box">
+          <h3>Range Builder</h3>
+          <p>Ranges imprimables + éditables, par stack / position / action. Simple à utiliser pendant les reviews.</p>
+        </div>
+        <div class="box">
+          <h3>Analyse & Scoring (V1)</h3>
+          <p>Import HH → détection d’erreurs → feedback. L’objectif : te faire corriger les mêmes leaks chaque semaine.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="programme" class="section">
+      <h2>Programme</h2>
+      <div class="grid3">
+        <div class="box">
+          <h3>Fondations</h3>
+          <p>Préflop simple, discipline, décisions automatiques.</p>
+        </div>
+        <div class="box">
+          <h3>Postflop robot</h3>
+          <p>Plans par catégories (top paire, tirage, air), et lignes par texture.</p>
+        </div>
+        <div class="box">
+          <h3>Routines</h3>
+          <p>Review hebdo, mental, suivi bankroll, hygiène de grind.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tarifs" class="section">
+      <h2>Tarifs</h2>
+      <div class="pricing">
+        <div class="card priceCard">
+          <div class="pill">Starter</div>
+          <div class="price">9€ <span class="per">/ mois</span></div>
+          <ul>
+            <li>Accès méthode V1</li>
+            <li>Ranges de base</li>
+            <li>Fiches pratiques (review)</li>
+          </ul>
+          <div class="divider"></div>
+          <a class="btn" href="/app/">Commencer</a>
+        </div>
+
+        <div class="card priceCard featured">
+          <div class="pill">Pro (recommandé)</div>
+          <div class="price">19€ <span class="per">/ mois</span></div>
+          <ul>
+            <li>Tout Starter</li>
+            <li>Outil Range Builder</li>
+            <li>Analyse & scoring (V1)</li>
+            <li>Roadmap + updates</li>
+          </ul>
+          <div class="divider"></div>
+          <a class="btn primary" href="/app/">Tester l’outil</a>
+        </div>
+
+        <div class="card priceCard">
+          <div class="pill">Club</div>
+          <div class="price">39€ <span class="per">/ mois</span></div>
+          <ul>
+            <li>Tout Pro</li>
+            <li>Reviews guidées (à terme)</li>
+            <li>Chantiers avancés (V2+)</li>
+          </ul>
+          <div class="divider"></div>
+          <a class="btn" href="/app/">Rejoindre</a>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:10px">
+        Note : prix/tiers sont placeholders pour la V1. On les ajustera quand l’outil aura prouvé sa valeur.
+      </p>
+    </section>
+
+    <section id="faq" class="section">
+      <h2>FAQ</h2>
+      <div class="grid2">
+        <details>
+          <summary>Je suis nul en théorie, ça marche quand même ?</summary>
+          <p>Oui si tu suis les règles. Le but est précisément d’éviter le “je comprends mais je fais n’importe quoi”.</p>
+        </details>
+        <details>
+          <summary>Vous promettez un ROI ?</summary>
+          <p>Non. On promet un système : discipline + review + corrections. Ton edge vient de l’exécution.</p>
+        </details>
+        <details>
+          <summary>Pourquoi l’outil est central ?</summary>
+          <p>Parce que les leaks reviennent. Un outil te le rappelle, te le mesure, et te force à corriger.</p>
+        </details>
+        <details>
+          <summary>Quand arrivent les abonnements/paiements ?</summary>
+          <p>Quand la V1 est stable et que les features clés sont prêtes. Stripe viendra ensuite.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card" style="padding:18px; border-radius:26px">
+        <div class="row" style="flex-wrap:wrap">
+          <div>
+            <div class="pill">Prochaine étape</div>
+            <div style="font-size:20px; font-weight:900; margin-top:8px">Mets ton outil dans /app et rends-le irrésistible.</div>
+            <div class="muted" style="margin-top:4px">Le site vend. L’outil retient.</div>
+          </div>
+          <div class="right">
+            <a class="btn" href="/app/">Ouvrir l’app</a>
+            <a class="btn primary" href="#tarifs">Voir les tiers</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footgrid">
+        <div>© <span id="y"></span> École de Poker — V1</div>
+        <div class="right">
+          <a class="btn small" href="/app/">App</a>
+          <a class="btn small" href="#faq">FAQ</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
