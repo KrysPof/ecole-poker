@@ -2,12 +2,27 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>App - École de Poker</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>École de Poker — App</title>
+  <link rel="stylesheet" href="./app.css" />
 </head>
-<body style="font-family: system-ui; padding: 24px;">
-  <h1>App École de Poker</h1>
-  <p>Ton outil viendra ici.</p>
-  <p><a href="/">Retour au site</a></p>
+<body>
+  <!-- Bandeau sticky (toujours visible, discret) -->
+  <header class="topbar">
+    <div class="wrap row">
+      <div class="left">
+        <div class="badge" id="trialBadge">Essai en cours</div>
+        <div class="muted" id="trialMeta">Progression : 0 / 3 actions</div>
+      </div>
+      <div class="right">
+        <button class="btn ghost" id="btnReset" type="button" title="Remise à zéro locale">Reset</button>
+        <button class="btn" id="btnSubscribe" type="button">S’abonner</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="app"></main>
+
+  <script src="./app.js"></script>
 </body>
 </html>
